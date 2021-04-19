@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d83cddce-17da-496d-8f67-9be20110f995",
+		"_postman_id": "c392bdb1-6206-41d2-b267-dafe31b40dd7",
 		"name": "Boomi Atomsphere API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -59,7 +59,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "<QueryConfig xmlns=\"http://api.platform.boomi.com/\">\r\n  <QueryFilter>\r\n    <expression operator=\"EQUALS\" property=\"status\"\r\n      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"SimpleExpression\">\r\n      <argument>IN PROGRESS</argument>\r\n    </expression>\r\n  </QueryFilter>\r\n</QueryConfig>",
+									"raw": "<QueryConfig xmlns=\"http://api.platform.boomi.com/\">\r\n  <QueryFilter>\r\n    <expression operator=\"EQUALS\" property=\"status\"\r\n      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"SimpleExpression\">\r\n      <argument>DONE</argument>\r\n    </expression>\r\n  </QueryFilter>\r\n</QueryConfig>",
 									"options": {
 										"raw": {
 											"language": "xml"
@@ -86,7 +86,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "Execution records correspond to the Executions search on the Process Reporting page in the Boomi Integration user interface. The Execution Record object contains information about a process execution, including the execution date, status, process information, Atom information, and error messages along with other fields."
 				}
 			]
 		},
@@ -227,7 +228,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Account object provides information about an AtomSphere account, including the users associated with the account, connector licensing information, and general information.\n\nNote: The ability to create and delete accounts is available only through the AtomSphere Partner API."
 				},
 				{
 					"name": "Event",
@@ -305,7 +307,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "Event records correspond to the notifications that are available in the Boomi AtomSphere platform RSS feeds and sent in email notifications. The Event object returns information about the different types of events, including process execution events, user notifications, and Atom monitoring events.\n\nNote: Event records are purged after seven days."
 				},
 				{
 					"name": "ExecutionRecord",
@@ -385,7 +388,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "Execution records correspond to the Executions search on the Process Reporting page in the Boomi Integration user interface. The Execution Record object contains information about a process execution, including the execution date, status, process information, Atom information, and error messages along with other fields."
 				},
 				{
 					"name": "AuditLog",
@@ -546,7 +550,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Audit Log object represents an entry in the audit log. Audit log entries are retained indefinitely — there is no purge schedule."
 				},
 				{
 					"name": "Deployments",
@@ -632,7 +637,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Deployment object represents a component deployment.\n\nCAUTION:\nThe Deployment object is a deprecated API and should no longer be used. It is highly recommended that you take advantage of the API functionality provided by the Packaged Component and Deployed Package objects instead. This change is to support the introduction of Packaged Component Deployments, which leverages the way Legacy account users deploy components to environments. For more information about Boomi's API object deprecation status, see the topic API deprecation and versioning policy.\n\nAdministrators of Legacy deployment accounts are highly encouraged to take advantage of the new Packaged Components Deployment by upgrading their accounts. Learn more about the new deployment workflow and how to upgrade Legacy accounts to use the new deployment workflow. In the meantime, do not use the replacement API without first converting your Legacy account.\n\nProcesses that contain Process Route components cannot be deployed as a unit via the API. The parent process, the Process Route component, and any subprocesses that the process route calls must be deployed independently."
 				},
 				{
 					"name": "ProcessSchedules",
@@ -718,7 +724,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Process Schedules object represents the execution schedules for a deployed process.\n\nA Process Schedules object is created for every deployed process by default. Initially, the object is empty and no execution schedule is in effect."
 				},
 				{
 					"name": "Process",
@@ -804,7 +811,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Process object represents a process that is available to the requesting account.\n\nThis object is primarily used to assist with integration packs and extensions for multi-install integration packs.\n\nTo retrieve general information about a process or other type of component, use the Component Metadata object instead."
 				},
 				{
 					"name": "Atom",
@@ -879,7 +887,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Atom object represents an Atom, Molecule, or Atom Cloud.\n\nNote: Many of the fields in the Atom object correspond to controls in the Atom Information panel of the Atom Management page."
 				},
 				{
 					"name": "EnvironmentExtensions",
@@ -1037,7 +1046,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Environment Extensions object represents the extension (process override) values for an environment.\n\nThe Environment Extensions object supports the ability to retrieve and update environment extension values. The functionality provided in the Environment Extensions object mimics the actions you can perform from the Atom Management > Environment Management > Environment Extensions dialog in Boomi Integration."
 				},
 				{
 					"name": "Environment",
@@ -1195,7 +1205,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Environment object represents an environment.\n\nFor accounts with Unlimited environment support, environments can be classified as either Production or Test. For accounts with Basic environment support, all environments are classified as production environments.\n\nNote: The fields in the Environment object correspond to controls in the Environment Properties panel of the Atom Management page."
 				},
 				{
 					"name": "ComponentMetadata",
@@ -1281,7 +1292,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Component object represents a component in the Boomi Integration service. You can use the Metadata API object to retrieve metadata information for a given component, such as name, component type, folder location, and more.\n\nYou can also use the Component Metadata object's GET and QUERY operations to find:\n\nAll components that were created within a specific date range\n\nAll components that were modified by a specific user\n\nAll components of a certain type\n\nThe revision history for a specified component\n\nFor example, you can use a combination of these operations to retrieve the revision history for a given component, or to create audit reports of which users changed a component.\n\nNote: The ComponentMetadata API is accessible only with Build Read Access or Build Read and Write Access privileges."
 				},
 				{
 					"name": "PackagedComponent",
@@ -1352,7 +1364,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "The Packaged Component object represents a component that is packaged for deployment to an environment. You can use the Packaged Component object to create new packaged components, query for packaged components, or restore deleted packaged components.\n\nIn addition to processes, the following types of components can be converted into packaged components and deployed to an environment independently:\n\nAPI Proxy\n\nAPI Service\n\nCertificate (public X.509)\n\nCustom Library\n\nFlow Service\n\nProcess Route\n\nProcessing Group\n\nNote: You must have the Packaged Component Management privilege to use the Packaged Component object."
 				}
 			]
 		}
