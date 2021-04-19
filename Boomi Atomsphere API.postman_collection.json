@@ -141,7 +141,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "<bns:DeployedPackage xmlns:bns=\"http://api.platform.boomi.com/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n    <bns:environmentId>{{envID_Dev}}</bns:environmentId>\r\n    <bns:packageId>{{packageComponentId}}</bns:packageId>\r\n    <bns:notes>API Call Test via Postman</bns:notes>\r\n</bns:DeployedPackage>",
+									"raw": "<bns:DeployedPackage xmlns:bns=\"http://api.platform.boomi.com/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n    <bns:environmentId>{{envID_Dev}}</bns:environmentId>\r\n    <bns:packageId>{{packageComponentId}}</bns:packageId>\r\n    <bns:notes>API Call Test via Postman, SOAP</bns:notes>\r\n</bns:DeployedPackage>",
 									"options": {
 										"raw": {
 											"language": "xml"
@@ -1447,6 +1447,87 @@
 						}
 					],
 					"description": "The Packaged Component object represents a component that is packaged for deployment to an environment. You can use the Packaged Component object to create new packaged components, query for packaged components, or restore deleted packaged components.\n\nIn addition to processes, the following types of components can be converted into packaged components and deployed to an environment independently:\n\nAPI Proxy\n\nAPI Service\n\nCertificate (public X.509)\n\nCustom Library\n\nFlow Service\n\nProcess Route\n\nProcessing Group\n\nNote: You must have the Packaged Component Management privilege to use the Packaged Component object."
+				},
+				{
+					"name": "DeployedPackage",
+					"item": [
+						{
+							"name": "Deployed Package",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/xml"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@type\": \"DeployedPackage\",\r\n    \"packageId\": \"7f436a84-f9dd-4417-ac3e-ee01a1343a3b\",\r\n    \"environmentId\": \"e7fc610a-c1ef-4b66-8bb5-a01a1f8970e2\",\r\n    \"notes\": \"Deployment test via Postman collection, REST\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/DeployedPackage",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"DeployedPackage"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "The Deployed Package object represents a packaged component that is deployed to an environment.\n\nYou must have the Packaged Component Deployment privilege (formerly known as the Process Deployment privilege) to use the Deployed Package object. If you want to use the CREATE operation to create a packaged component and deploy it in a single operation, you must also have the Packaged Component Management privilege (formerly known as the Package Management privilege)."
 				}
 			]
 		}
