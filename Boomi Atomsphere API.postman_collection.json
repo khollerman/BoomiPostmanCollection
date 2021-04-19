@@ -88,6 +88,87 @@
 						}
 					],
 					"description": "Execution records correspond to the Executions search on the Process Reporting page in the Boomi Integration user interface. The Execution Record object contains information about a process execution, including the execution date, status, process information, Atom information, and error messages along with other fields."
+				},
+				{
+					"name": "DeployedPackage",
+					"item": [
+						{
+							"name": "Deployed Package",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/xml"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<bns:DeployedPackage xmlns:bns=\"http://api.platform.boomi.com/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n    <bns:environmentId>{{envID_Dev}}</bns:environmentId>\r\n    <bns:packageId>{{packageComponentId}}</bns:packageId>\r\n    <bns:notes>API Call Test via Postman</bns:notes>\r\n</bns:DeployedPackage>",
+									"options": {
+										"raw": {
+											"language": "xml"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/DeployedPackage",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"DeployedPackage"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "The Deployed Package object represents a packaged component that is deployed to an environment.\n\nYou must have the Packaged Component Deployment privilege (formerly known as the Process Deployment privilege) to use the Deployed Package object. If you want to use the CREATE operation to create a packaged component and deploy it in a single operation, you must also have the Packaged Component Management privilege (formerly known as the Package Management privilege)."
 				}
 			]
 		},
