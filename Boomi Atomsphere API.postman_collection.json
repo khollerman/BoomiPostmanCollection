@@ -1495,12 +1495,12 @@
 										"key": "Content-Type",
 										"name": "Content-Type",
 										"type": "text",
-										"value": "application/xml"
+										"value": "application/json"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"@type\": \"DeployedPackage\",\r\n    \"packageId\": \"7f436a84-f9dd-4417-ac3e-ee01a1343a3b\",\r\n    \"environmentId\": \"e7fc610a-c1ef-4b66-8bb5-a01a1f8970e2\",\r\n    \"notes\": \"Deployment test via Postman collection, REST\"\r\n}",
+									"raw": "{\r\n    \"@type\": \"DeployedPackage\",\r\n    \"packageId\": \"{{packageComponentId}}\",\r\n    \"environmentId\": \"{{envID_Dev}}\",\r\n    \"notes\": \"Deployment test via Postman collection, REST\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
