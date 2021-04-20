@@ -176,6 +176,87 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Deployed Package -  Query",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<QueryConfig xmlns=\"http://api.platform.boomi.com/\">\r\n  <QueryFilter>\r\n   <expression operator=\"and\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"GroupingExpression\">\r\n\t\t<nestedExpression operator=\"EQUALS\" property=\"environmentId\"\r\n\t\t  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"SimpleExpression\">\r\n\t\t  <argument>{{envID_Dev}}</argument>\r\n\t\t</nestedExpression>\r\n\t\t<nestedExpression operator=\"EQUALS\" property=\"packageId\"\r\n\t\t  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"SimpleExpression\">\r\n\t\t  <argument>{{packageComponentId}}</argument>\r\n\t\t</nestedExpression>\r\n\t\t<nestedExpression operator=\"EQUALS\" property=\"active\"\r\n\t\t  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"SimpleExpression\">\r\n\t\t  <argument>true</argument>\r\n\t\t</nestedExpression>\r\n\t</expression>\r\n  </QueryFilter>\r\n</QueryConfig>",
+									"options": {
+										"raw": {
+											"language": "xml"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/DeployedPackage/query",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"DeployedPackage",
+										"query"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "The Deployed Package object represents a packaged component that is deployed to an environment.\n\nYou must have the Packaged Component Deployment privilege (formerly known as the Process Deployment privilege) to use the Deployed Package object. If you want to use the CREATE operation to create a packaged component and deploy it in a single operation, you must also have the Packaged Component Management privilege (formerly known as the Package Management privilege)."
