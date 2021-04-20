@@ -260,6 +260,78 @@
 						}
 					],
 					"description": "The Deployed Package object represents a packaged component that is deployed to an environment.\n\nYou must have the Packaged Component Deployment privilege (formerly known as the Process Deployment privilege) to use the Deployed Package object. If you want to use the CREATE operation to create a packaged component and deploy it in a single operation, you must also have the Packaged Component Management privilege (formerly known as the Package Management privilege)."
+				},
+				{
+					"name": "PackageComponent",
+					"item": [
+						{
+							"name": "PackagedComponent",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/PackagedComponent/{{packageComponentId}}",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"PackagedComponent",
+										"{{packageComponentId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "The Packaged Component object represents a component that is packaged for deployment to an environment. You can use the Packaged Component object to create new packaged components, query for packaged components, or restore deleted packaged components.\n\nIn addition to processes, the following types of components can be converted into packaged components and deployed to an environment independently:\n\nAPI Proxy\n\nAPI Service\n\nCertificate (public X.509)\n\nCustom Library\n\nFlow Service\n\nProcess Route\n\nProcessing Group\n\nNote: You must have the Packaged Component Management privilege to use the Packaged Component object."
 				}
 			]
 		},
