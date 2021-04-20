@@ -55,6 +55,11 @@
 										"key": "Content-Type",
 										"type": "text",
 										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -137,6 +142,11 @@
 										"name": "Content-Type",
 										"type": "text",
 										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -287,6 +297,11 @@
 										"key": "Accept",
 										"type": "text",
 										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
 									}
 								],
 								"url": {
@@ -1496,6 +1511,11 @@
 										"name": "Content-Type",
 										"type": "text",
 										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -1521,6 +1541,87 @@
 										"v1",
 										"{{accountId}}",
 										"DeployedPackage"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deployed Package -  Query",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"QueryFilter\": {\r\n\t\t\"expression\": {\r\n\t\t\t\"operator\": \"and\",\r\n\t\t\t\"nestedExpression\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"argument\": [\"{{envID_Dev}}\"],\r\n\t\t\t\t\t\"operator\": \"EQUALS\",\r\n\t\t\t\t\t\"property\": \"environmentId\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"argument\": [\"{{packageComponentId}}\"],\r\n\t\t\t\t\t\"operator\": \"EQUALS\",\r\n\t\t\t\t\t\"property\": \"packageId\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"argument\": [true],\r\n\t\t\t\t\t\"operator\": \"EQUALS\",\r\n\t\t\t\t\t\"property\": \"active\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/DeployedPackage/query",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"DeployedPackage",
+										"query"
 									]
 								}
 							},
