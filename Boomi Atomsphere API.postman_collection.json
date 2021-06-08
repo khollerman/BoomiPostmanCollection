@@ -1959,12 +1959,5 @@
 				]
 			}
 		}
-	],
-	"variable": [
-		{
-			"key": "userName",
-			"value": "kira.hollerman@slalom.com",
-			"type": "string"
-		}
 	]
 }
