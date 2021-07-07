@@ -2065,6 +2065,90 @@
 								],
 								"body": {
 									"mode": "raw",
+									"raw": "{\r\n    \"@type\": \"JavaUpgrade\",\r\n    \"atomId\": \"{{atomId_Dev}}\",\r\n    \"JavaUpgradeOptions\":\r\n    {\r\n        \"migrateCertificate\": true,\r\n        \"cacertsPath\": \"/opt/Boomi_AtomSphere/Atom/AtomName\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/JavaUpgrade",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"JavaUpgrade"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JavaUpgrade",
+					"item": [
+						{
+							"name": "Execution Request Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
 									"raw": "{\r\n    \"@type\": \"ExecutionRequest\",\r\n    \"atomId\": \"{{atomID_Dev}}\",\r\n    \"processId\": \"b9d91950-031d-49d0-a0f3-89ce440d37f3\"\r\n}"
 								},
 								"url": {
