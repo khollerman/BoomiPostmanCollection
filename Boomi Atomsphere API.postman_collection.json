@@ -2073,7 +2073,7 @@
 									}
 								},
 								"url": {
-									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/JavaUpgrade",
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/ExecutionRequest",
 									"protocol": "https",
 									"host": [
 										"api",
@@ -2085,7 +2085,7 @@
 										"rest",
 										"v1",
 										"{{accountId}}",
-										"JavaUpgrade"
+										"ExecutionRequest"
 									]
 								}
 							},
@@ -2152,7 +2152,7 @@
 									"raw": "{\r\n    \"@type\": \"JavaUpgrade\",\r\n    \"atomId\": \"{{atomId_Dev}}\",\r\n    \"JavaUpgradeOptions\":\r\n    {\r\n        \"migrateCertificate\": true,\r\n        \"cacertsPath\": \"/opt/Boomi_AtomSphere/Atom/AtomName\"\r\n    }\r\n}\r\n"
 								},
 								"url": {
-									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/ExecutionRequest",
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/JavaUpgrade",
 									"protocol": "https",
 									"host": [
 										"api",
@@ -2164,7 +2164,7 @@
 										"rest",
 										"v1",
 										"{{accountId}}",
-										"ExecutionRequest"
+										"JavaUpgrade"
 									]
 								}
 							},
