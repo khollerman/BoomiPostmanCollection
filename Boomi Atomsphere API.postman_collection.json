@@ -1766,6 +1766,87 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Component Metadata - By Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"QueryFilter\" : {\r\n      \"expression\" : {\r\n      \t  \"operator\" : \"and\",\r\n          \"nestedExpression\" : [\r\n          \t{\r\n              \"argument\" : [\"6e7a8c80-c4b8-472e-84e5-9feb899bf70c\"],\r\n              \"operator\" :\"EQUALS\",\r\n              \"property\" :\"componentId\"\r\n        \t}\r\n    \t\t]\r\n    \t}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/ComponentMetadata/query",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"ComponentMetadata",
+										"query"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "The Component object represents a component in the Boomi Integration service. You can use the Metadata API object to retrieve metadata information for a given component, such as name, component type, folder location, and more.\n\nYou can also use the Component Metadata object's GET and QUERY operations to find:\n\nAll components that were created within a specific date range\n\nAll components that were modified by a specific user\n\nAll components of a certain type\n\nThe revision history for a specified component\n\nFor example, you can use a combination of these operations to retrieve the revision history for a given component, or to create audit reports of which users changed a component.\n\nNote: The ComponentMetadata API is accessible only with Build Read Access or Build Read and Write Access privileges."
@@ -2165,6 +2246,92 @@
 										"v1",
 										"{{accountId}}",
 										"JavaUpgrade"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Component Reference",
+					"item": [
+						{
+							"name": "Component Reference",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"QueryFilter\": {\r\n    \"expression\": {\r\n      \"argument\": [\r\n        \"48185927-3117-4d2e-b795-4ea18cdca884\"\r\n      ],\r\n      \"operator\": \"EQUALS\",\r\n      \"property\": \"componentId\"\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/ComponentReference/query",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"ComponentReference",
+										"query"
 									]
 								}
 							},
