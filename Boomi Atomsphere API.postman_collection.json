@@ -1444,6 +1444,81 @@
 							"response": []
 						},
 						{
+							"name": "Environment Extensions - Update Dynamic Process Property",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"@type\" : \"EnvironmentExtensions\",\r\n   \"properties\" : {\r\n      \"@type\" : \"\",\r\n      \"property\" : [\r\n        {\r\n            \"@type\" : \"\",\r\n            \"name\" : \"DPP-DEBUG\",\r\n            \"value\" : \"TEST\"\r\n         }\r\n      ]\r\n   },\r\n   \"environmentId\" : \"{{envID_Dev}}\",\r\n   \"partial\" : true\r\n}"
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/EnvironmentExtensions/{{envID_Dev}}",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"EnvironmentExtensions",
+										"{{envID_Dev}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Environment Extensions",
 							"event": [
 								{
