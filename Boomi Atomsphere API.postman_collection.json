@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c392bdb1-6206-41d2-b267-dafe31b40dd7",
+		"_postman_id": "46fcae14-833d-4fcb-ac8d-3fbc89b61eb6",
 		"name": "Boomi Atomsphere API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2406,6 +2406,177 @@
 										"v1",
 										"{{accountId}}",
 										"ComponentReference",
+										"query"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AtomLog",
+					"item": [
+						{
+							"name": "Get Atom Log",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"atomId\" : \"{{atomId}}\", \r\n  \"logDate\" : \"2021-09-27\",\r\n  \"includeBin\" : true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/AtomLog",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"AtomLog"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "APIUsageCount",
+					"item": [
+						{
+							"name": "Query API Usage Count",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"QueryFilter\":{\r\n        \"expression\":{\r\n            \"operator\": \"and\",\r\n            \"nestedExpression\":[\r\n                {\r\n                    \"argument\": [\"PROD\"],\r\n                    \"operator\": \"EQUALS\",\r\n                    \"property\": \"classification\"\r\n                },\r\n                {\r\n                    \"argument\": [\"2021-10-25T15:50:00Z\",\"2021-10-26T15:50:00Z\"],\r\n                    \"operator\": \"BETWEEN\",\r\n                    \"property\": \"processDate\"\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/APIUsageCount/query",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"APIUsageCount",
 										"query"
 									]
 								}
