@@ -949,6 +949,81 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "AuditLog - Query  - BySource",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Generate the basic authentication header if its not already present",
+											"",
+											"if (pm.environment.get(\"basicAuth\") === undefined) {",
+											"    var auth = \"BOOMI_TOKEN.\" + pm.environment.get(\"userName\") + \":\" + pm.environment.get(\"userToken\");",
+											"    ",
+											"    var encodedString = btoa(auth);",
+											"    ",
+											"    pm.environment.set(\"basicAuth\", encodedString);    ",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "BOOMI_TOKEN.{{userName}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{apiToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"QueryFilter\": {\r\n\t\t\"expression\": {\r\n\t\t\t\"operator\": \"and\",\r\n\t\t\t\"nestedExpression\": [{\r\n\t\t\t\t\t\"property\": \"source\",\r\n\t\t\t\t\t\"operator\": \"EQUALS\",\r\n\t\t\t\t\t\"argument\": [\"API\"]\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"property\": \"date\",\r\n\t\t\t\t\t\"operator\": \"BETWEEN\",\r\n\t\t\t\t\t\"argument\": [\"2021-09-01T00:00:00Z\", \"2021-11-01T23:59:59Z\"]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t}\r\n}"
+								},
+								"url": {
+									"raw": "https://api.boomi.com/api/rest/v1/{{accountId}}/AuditLog/query",
+									"protocol": "https",
+									"host": [
+										"api",
+										"boomi",
+										"com"
+									],
+									"path": [
+										"api",
+										"rest",
+										"v1",
+										"{{accountId}}",
+										"AuditLog",
+										"query"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "The Audit Log object represents an entry in the audit log. Audit log entries are retained indefinitely — there is no purge schedule."
